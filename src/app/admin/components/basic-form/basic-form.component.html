@@ -1,10 +1,14 @@
 <p>
-  Name: {{ nameField.value }}
+  Name: {{ nameField.value }} {{ nameField.valid  }}
   <input type="text" [formControl]="nameField">
-  <button (click)="getNameValue()" >Get value</button>
+  <button [disabled]="nameField.invalid" (click)="getNameValue()" >Get value</button>
   <!-- <code>
     <pre> {{ nameField | json }} </pre>
   </code> -->
+</p>
+<p>
+  <strong *ngIf="nameField.hasError('required') && nameField.touched" >Este campo es requerido</strong>
+  <strong *ngIf="nameField.hasError('maxlength')" >Sólo debe tener 10 carácteres</strong>
 </p>
 
 <p>
@@ -27,3 +31,91 @@
   Age: {{ ageField.value }}
   <input type="number" [formControl]="ageField">
 </p>
+<p>
+  Range: {{ rangeField.value }}
+  <input type="range" [formControl]="rangeField">
+</p>
+<p>
+  Month: {{ monthField.value }}
+  <input type="month" [formControl]="monthField">
+</p>
+<p>
+  Week: {{ weekField.value }}
+  <input type="week" [formControl]="weekField">
+</p>
+
+
+
+<p>
+  Category: {{ categoryField.value }}
+  <select [formControl]="categoryField">
+    <option value="category-1">Category 1</option>
+    <option value="category-2">Category 2</option>
+    <option value="category-3">Category 3</option>
+    <option value="category-4">Category 4</option>
+    <option value="category-5">Category 5</option>
+    <option value="category-6">Category 6</option>
+    <option value="category-7">Category 7</option>
+    <option value="category-8">Category 8</option>
+  </select>
+</p>
+<p>
+  Tags: {{ tagField.value }}
+  <select [formControl]="tagField" multiple>
+    <option value="tag-1">Tag 1</option>
+    <option value="tag-2">Tag 2</option>
+    <option value="tag-3">Tag 3</option>
+    <option value="tag-4">Tag 4</option>
+    <option value="tag-5">Tag 5</option>
+    <option value="tag-6">Tag 6</option>
+    <option value="tag-7">Tag 7</option>
+    <option value="tag-8">Tag 8</option>
+  </select>
+</p>
+
+
+<p>
+  Agree: {{ agreeField.value }}
+  <input type="checkbox" [formControl]="agreeField">
+</p>
+
+<p>
+  Gender: {{ genderField.value }}
+  <label>
+    <input name="gender" type="radio" value="male" [formControl]="genderField">
+    Male
+  </label>
+  <label>
+    <input name="gender" type="radio" value="female" [formControl]="genderField">
+    Female
+  </label>
+  <label>
+    <input name="gender" type="radio" value="other" [formControl]="genderField">
+    Other
+  </label>
+</p>
+
+<p>
+  Zone: {{ zoneField.value }}
+  <label>
+    <input name="zone" type="radio" value="zone-1" [formControl]="zoneField">
+    Zona 1
+  </label>
+  <label>
+    <input name="zone" type="radio" value="zone-2" [formControl]="zoneField">
+    Zona 2
+  </label>
+  <label>
+    <input name="zone" type="radio" value="zone-3" [formControl]="zoneField">
+    Zona 3
+  </label>
+</p>
+
+<div>
+  <h3>Preferencias: {{ preferences | json }} </h3>
+  <p *ngFor="let pref of preferenceList">
+    <label> {{ pref.area }}
+      <input type="checkbox" [value]="pref.value" (change)="checkboxChangeHandle($event)">
+    </label>
+  </p>
+</div>
