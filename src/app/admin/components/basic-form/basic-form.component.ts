@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 interface Preference {
   area: string;
@@ -12,21 +12,40 @@ interface Preference {
 })
 export class BasicFormComponent implements OnInit {
 
-  nameField = new FormControl('', [Validators.required, Validators.maxLength(10)] );
-  emailField = new FormControl('');
-  phoneField = new FormControl('');
-  colorField = new FormControl('#000000');
-  dateField = new FormControl('');
-  ageField = new FormControl(12);
-  rangeField = new FormControl();
-  monthField = new FormControl('');
-  weekField = new FormControl('');
-  categoryField = new FormControl('category-3');
-  tagField = new FormControl(['tag-3']);
+  form: FormGroup;
 
-  agreeField = new FormControl(false);
-  genderField = new FormControl('');
-  zoneField = new FormControl('');
+  // this.form = new FormGroup({
+  //   name: new FormControl('', [Validators.required, Validators.maxLength(10)]),
+  //   email: new FormControl(''),
+  //   phone: new FormControl(''),
+  //   color: new FormControl('#000000'),
+  //   date: new FormControl(''),
+  //   age: new FormControl(12),
+  //   range: new FormControl(),
+  //   month: new FormControl(''),
+  //   week: new FormControl(''),
+  //   category: new FormControl('category-3'),
+  //   tag: new FormControl(['tag-3']),
+  //   agree: new FormControl(false),
+  //   gender: new FormControl(''),
+  //   zone: new FormControl('')
+  // })
+
+  // nameField = new FormControl('', [Validators.required, Validators.maxLength(10)] );
+  // emailField = new FormControl('');
+  // phoneField = new FormControl('');
+  // colorField = new FormControl('#000000');
+  // dateField = new FormControl('');
+  // ageField = new FormControl(12);
+  // rangeField = new FormControl();
+  // monthField = new FormControl('');
+  // weekField = new FormControl('');
+  // categoryField = new FormControl('category-3');
+  // tagField = new FormControl(['tag-3']);
+
+  // agreeField = new FormControl(false);
+  // genderField = new FormControl('');
+  // zoneField = new FormControl('');
   
 
   preferences: string[] = [];
@@ -40,37 +59,110 @@ export class BasicFormComponent implements OnInit {
     { area: 'Startup', value: 'startup' }
   ]
   
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) { 
+    this.buildForm()
+  }
 
   ngOnInit(): void {
-    this.nameField.valueChanges
-      .subscribe(value => {
-        console.log(value);
-      });
-    this.colorField.valueChanges
-      .subscribe(value => {
-        console.log(value);
-      });
-    this.tagField.valueChanges
-      .subscribe(value => {
-        console.log(value);
+    this.form.valueChanges
+    .subscribe(value => {
+      console.log(value);
     });
-    this.rangeField.valueChanges
-      .subscribe(value => {
-        console.log(value)
-    });
-    this.monthField.valueChanges
-        .subscribe(value => {
-          console.log(value);
-    });
-    this.weekField.valueChanges
-      .subscribe(value => {
-        console.log(value);
-    });
-    this.genderField.valueChanges
-      .subscribe(value => {
-        console.log(value);
-      })
+    // this.nameField.valueChanges
+    //   .subscribe(value => {
+    //     console.log(value);
+    //   });
+    // this.colorField.valueChanges
+    //   .subscribe(value => {
+    //     console.log(value);
+    //   });
+    // this.tagField.valueChanges
+    //   .subscribe(value => {
+    //     console.log(value);
+    // });
+    // this.rangeField.valueChanges
+    //   .subscribe(value => {
+    //     console.log(value)
+    // });
+    // this.monthField.valueChanges
+    //     .subscribe(value => {
+    //       console.log(value);
+    // });
+    // this.weekField.valueChanges
+    //   .subscribe(value => {
+    //     console.log(value);
+    // });
+    // this.genderField.valueChanges
+    //   .subscribe(value => {
+    //     console.log(value);
+    //   })
+  }
+  save(event: Event) {
+    if (this.form.valid) {
+      console.log(this.form.value)
+    } else {
+      this.form.markAllAsTouched();
+    }
+  }
+  private buildForm() {
+    this.form = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.maxLength(10), Validators.pattern(/^([Aa-zA-ZáéíóúÁÉÍÓÚÑñ]{2,}\s?){2,4}$/)]],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', Validators.required],
+      color: ['#000000'],
+      date: [''],
+      age: [12, [Validators.required, Validators.min(18), Validators.max(100)]],
+      range: [],
+      month: [''],
+      week: [''],
+      category: ['category-3'],
+      tag: [['tag-3']],
+      agree: [false, [Validators.requiredTrue]],
+      gender: [''],
+      zone: ['']
+    })
+  }
+  get nameField() {
+    return this.form.get('name');
+  }
+  get emailField() {
+    return this.form.get('email');
+  }
+  get phoneField() {
+    return this.form.get('phone');
+  }
+  get colorField() {
+    return this.form.get('color');
+  }
+  get dateField() {
+    return this.form.get('date');
+  }
+  get ageField() {
+    return this.form.get('age');
+  }
+  get rangeField() {
+    return this.form.get('range');
+  }
+  get monthField() {
+    return this.form.get('month');
+  }
+  get weekField() {
+    return this.form.get('week');
+  }
+  get categoryField() {
+    return this.form.get('category');
+  }
+  get tagField() {
+    return this.form.get('tag');
+  }
+  get agreeField() {
+    return this.form.get('agree');
+  }
+  get genderField() {
+    return this.form.get('gender');
+  }
+  get zoneField() {
+    return this.form.get('zone');
   }
   getNameValue () {
     // console.log(this.nameField.value);
@@ -89,5 +181,17 @@ export class BasicFormComponent implements OnInit {
   }
   get isNameFieldInvalid() {
     return this.nameField.touched && this.nameField.invalid;
+  }
+  get isPhoneFieldInvalid() {
+    return this.phoneField.touched && this.phoneField.invalid;
+  }
+  get isEmailFieldInvalid() {
+    return this.emailField.touched && this.emailField.invalid;
+  }
+  get isAgeFieldInvalid() {
+    return this.ageField.touched && this.ageField.invalid;
+  }
+  get isAgreeFieldInvalid() {
+    return this.agreeField.touched && this.agreeField.invalid;
   }
 }
