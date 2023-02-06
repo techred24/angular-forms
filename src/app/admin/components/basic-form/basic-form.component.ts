@@ -84,4 +84,10 @@ export class BasicFormComponent implements OnInit {
       this.preferences.splice(index, 1);
     }
   }
+  get isNameFieldValid() {
+    return this.nameField.touched && this.nameField.valid;
+  }
+  get isNameFieldInvalid() {
+    return this.nameField.touched && this.nameField.invalid;
+  }
 }

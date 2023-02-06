@@ -1,12 +1,16 @@
 <p>
-  Name: {{ nameField.value }} {{ nameField.valid  }}
-  <input type="text" [formControl]="nameField">
+  Name: {{ nameField.valid  }}
+  <input
+  [class.is-valid]="isNameFieldValid"
+  [class.is-invalid]="isNameFieldInvalid"
+  type="text"
+  [formControl]="nameField">
   <button [disabled]="nameField.invalid" (click)="getNameValue()" >Get value</button>
   <!-- <code>
     <pre> {{ nameField | json }} </pre>
   </code> -->
 </p>
-<p>
+<p class="messages" [class.active]="isNameFieldInvalid">
   <strong *ngIf="nameField.hasError('required') && nameField.touched" >Este campo es requerido</strong>
   <strong *ngIf="nameField.hasError('maxlength')" >Sólo debe tener 10 carácteres</strong>
 </p>

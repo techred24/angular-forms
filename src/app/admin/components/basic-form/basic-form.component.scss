@@ -1,0 +1,18 @@
+input {
+    &.is-valid {
+        outline: 2px solid green;
+    }
+    &.is-invalid {
+        outline: 2px solid red;
+    }
+}
+.messages {
+    opacity: 0;
+    transition: opacity 1s ease-in;
+    &.active {
+        opacity: 1;
+    }
+    & strong {
+        color: darkred;
+    }
+}
