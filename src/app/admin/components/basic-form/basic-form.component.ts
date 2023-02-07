@@ -46,7 +46,7 @@ export class BasicFormComponent implements OnInit {
   // agreeField = new FormControl(false);
   // genderField = new FormControl('');
   // zoneField = new FormControl('');
-  
+
 
   preferences: string[] = [];
   preferenceList: Array<Preference> = [
@@ -58,8 +58,8 @@ export class BasicFormComponent implements OnInit {
     { area: 'Crecimiento Profesional', value: 'crecimiento-profesional' },
     { area: 'Startup', value: 'startup' }
   ]
-  
-  constructor(private formBuilder: FormBuilder) { 
+
+  constructor(private formBuilder: FormBuilder) {
     this.buildForm()
   }
 
@@ -106,7 +106,10 @@ export class BasicFormComponent implements OnInit {
   }
   private buildForm() {
     this.form = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.maxLength(10), Validators.pattern(/^([Aa-zA-ZáéíóúÁÉÍÓÚÑñ]{2,}\s?){2,4}$/)]],
+      fullname: this.formBuilder.group({
+        name: ['', [Validators.required, Validators.maxLength(10), Validators.pattern(/^([Aa-zA-ZáéíóúÁÉÍÓÚÑñ]{2,}\s?){2,4}$/)]],
+        last: ['', [Validators.required]]
+      }),
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
       color: ['#000000'],
@@ -123,7 +126,12 @@ export class BasicFormComponent implements OnInit {
     })
   }
   get nameField() {
-    return this.form.get('name');
+    return this.form.get('fullname.name');
+    // return this.form.get('fullname').get('name');
+  }
+  get lastField() {
+    return this.form.get('fullname.last');
+    // return this.form.get('fullname').get('last');
   }
   get emailField() {
     return this.form.get('email');
@@ -177,7 +185,11 @@ export class BasicFormComponent implements OnInit {
     }
   }
   get isNameFieldValid() {
+    // return this.form.get('fullname').get('name').touched && this.form.get('fullname').get('name').valid;
     return this.nameField.touched && this.nameField.valid;
+  }
+  get isLastFieldInvalid() {
+    return this.lastField.touched && this.lastField.invalid;
   }
   get isNameFieldInvalid() {
     return this.nameField.touched && this.nameField.invalid;
