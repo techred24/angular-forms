@@ -1,21 +1,29 @@
 <form [formGroup]="form" (ngSubmit)="save($event)">
   <div formGroupName="fullname">
-    <p>
-      <!-- form.get('name').value -->
-      Name: {{ nameField.valid  }}
-      <input
-      [class.is-valid]="isNameFieldValid"
-      [class.is-invalid]="isNameFieldInvalid"
-      type="text"
-      formControlName="name">
-      <button [disabled]="nameField.invalid" (click)="getNameValue()" >Get value</button>
-    </p>
+    <mat-form-field appearance="fill">
+      <mat-label>
+        <!-- form.get('name').value -->
+        Name: {{ nameField.valid  }}
+      </mat-label>
+      <input matInput type="text" formControlName="name">
+      <mat-icon matSuffix *ngIf="isNameFieldValid">done</mat-icon>
+      <mat-icon matSuffix *ngIf="isNameFieldInvalid">close</mat-icon>
+    </mat-form-field>
 
 
     <p class="messages" [class.active]="isNameFieldInvalid">
-      <strong *ngIf="nameField.hasError('required') && nameField.touched" >Este campo es requerido</strong>
+      <mat-error *ngIf="nameField.hasError('required')">
+        Este campo es requerido
+      </mat-error>
+      <mat-error *ngIf="nameField.hasError('maxlength')">
+        Sólo debe tener 10 carácteres
+      </mat-error>
+      <mat-error *ngIf="nameField.hasError('pattern')">
+        Nombre no válido
+      </mat-error>
+      <!-- <strong *ngIf="nameField.hasError('required') && nameField.touched" >Este campo es requerido</strong>
       <strong *ngIf="nameField.hasError('maxlength')" >Sólo debe tener 10 carácteres</strong>
-      <strong *ngIf="nameField.hasError('pattern')" >Nombre no válido</strong>
+      <strong *ngIf="nameField.hasError('pattern')" >Nombre no válido</strong> -->
     </p>
 
     <p>
