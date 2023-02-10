@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from './../../../core/services/auth.service';
@@ -23,6 +23,9 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+    // this.form.get('confirmPassword').valueChanges.subscribe(value => {
+    //   console.log(value)
+    // });
   }
 
   register(event: Event) {
@@ -40,6 +43,9 @@ export class RegisterComponent implements OnInit {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6), MyValidators.validPassword]],
+      confirmPassword: ['', [Validators.required]]
+    }, {
+      validators: MyValidators.matchPassword
     });
   }
 

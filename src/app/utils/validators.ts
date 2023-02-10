@@ -19,6 +19,16 @@ export class MyValidators {
     return null;
   }
 
+  static matchPassword(control: AbstractControl) {
+    const { value: password } = control.get('password');
+    const { value: confirmPassword } = control.get('confirmPassword');
+
+    if (password === confirmPassword) {
+      return null;
+    }
+    return { match_password: true };
+  }
+
 }
 function containsNumber(value: string) {
   return value.split('').some(isNumber);
