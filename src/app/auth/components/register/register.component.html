@@ -19,6 +19,7 @@
             <input placeholder="password" formControlName="password" matInput type="password">
             <div *ngIf="form.get('password').touched && form.get('password').invalid">
               <mat-error *ngIf="form.get('password').hasError('invalid_password')" >Debe tener al menos un número</mat-error>
+              <mat-error *ngIf="form.get('password').hasError('minlength')" >Debe tener al menos 6 carácteres</mat-error>
             </div>
           </mat-form-field>
         </div>
@@ -31,6 +32,22 @@
             <div *ngIf="form.get('confirmPassword').touched && form.errors">
               <mat-error *ngIf="form.hasError('match_password')" >Las contraseñas no coincide</mat-error>
             </div>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs">
+          <mat-radio-group formControlName="type" aria-label="select an option">
+            <mat-radio-button value="company">Company</mat-radio-button>
+            <mat-radio-button value="customer">Customer</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs">
+          <mat-form-field>
+            <mat-label>Company Name</mat-label>
+            <input placeholder="company" formControlName="companyName" matInput type="text">
           </mat-form-field>
         </div>
       </div>
