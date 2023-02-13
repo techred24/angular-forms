@@ -5,6 +5,7 @@ import { CategoriesService } from 'src/app/core/services/categories.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 // import { Storage, ref, uploadBytes, listAll, getDownloadURL, StorageReference } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
+import { MyValidators } from 'src/app/utils/validators';
 
 @Component({
   selector: 'app-category-form',
@@ -19,7 +20,7 @@ export class CategoryFormComponent implements OnInit {
     private router: Router,
     private storage: AngularFireStorage
     // private storage: Storage
-  ) { 
+  ) {
     this.buildForm()
   }
 
@@ -27,7 +28,7 @@ export class CategoryFormComponent implements OnInit {
   }
   private buildForm() {
     this.form = this.formBuilder.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(4)], [MyValidators.validateCategory(this.categoriesService)]],
       image: ['', Validators.required]
     });
   }
