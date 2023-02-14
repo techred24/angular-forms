@@ -6,13 +6,19 @@ export const environment = {
   production: false,
   url_api: 'https://api.escuelajs.co/api/v1',
   firebase: {
-    apiKey: 'AIzaSyCN599W6_flBEpe0xrcuBlGPRW3OKzDr7o',
-    authDomain: 'platzi-store-forms.firebaseapp.com',
-    databaseURL: 'https://platzi-store-forms.firebaseio.com',
-    projectId: 'platzi-store-forms',
-    storageBucket: 'platzi-store-forms.appspot.com',
-    messagingSenderId: '783669493891',
-    appId: '1:783669493891:web:f973c1ba9bb213e2c75bb6'
+    apiKey: "AIzaSyDbbfhl5JxfP8BZeEIIQTSfOzIboNCVRBQ",
+    authDomain: "angular-forms-620c4.firebaseapp.com",
+    projectId: "angular-forms-620c4",
+    storageBucket: "angular-forms-620c4.appspot.com",
+    messagingSenderId: "454959158082",
+    appId: "1:454959158082:web:2d146490ded2b9ed00aedb"
+    // apiKey: 'AIzaSyCN599W6_flBEpe0xrcuBlGPRW3OKzDr7o',
+    // authDomain: 'platzi-store-forms.firebaseapp.com',
+    // databaseURL: 'https://platzi-store-forms.firebaseio.com',
+    // projectId: 'platzi-store-forms',
+    // storageBucket: 'platzi-store-forms.appspot.com',
+    // messagingSenderId: '783669493891',
+    // appId: '1:783669493891:web:f973c1ba9bb213e2c75bb6'
   }
 };
 
