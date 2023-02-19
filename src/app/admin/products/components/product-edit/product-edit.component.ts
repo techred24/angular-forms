@@ -55,11 +55,11 @@ export class ProductEditComponent implements OnInit {
     if (this.form.valid) {
       const product = this.form.value;
       console.log(product)
-      // this.productsService.updateProduct(this.id, product)
-      // .subscribe((newProduct) => {
-      //   console.log(newProduct);
-      //   this.router.navigate(['./admin/products']);
-      // });
+      this.productsService.updateProduct(this.id, product)
+      .subscribe((newProduct) => {
+        console.log(newProduct);
+        this.router.navigate(['./admin/products']);
+      });
     }
   }
 
