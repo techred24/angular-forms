@@ -17,6 +17,13 @@ export class ProductEditComponent implements OnInit {
   form: UntypedFormGroup;
   id: string;
   categories: Category[] = [];
+  states = [
+    {name: 'Arizona', abbrev: 'AZ'},
+    {name: 'California', abbrev: 'CA'},
+    {name: 'Colorado', abbrev: 'CO'},
+    {name: 'New York', abbrev: 'NY'},
+    {name: 'Pennsylvania', abbrev: 'PA'},
+  ];
   constructor(
     private formBuilder: UntypedFormBuilder,
     private productsService: ProductsService,
@@ -34,8 +41,11 @@ export class ProductEditComponent implements OnInit {
       this.productsService.getProduct(this.id)
       .subscribe((product:any) => {
         console.log(product)
-        this.form.patchValue(product);
-        this.form.get('categoryId').setValue(product.category.id);
+        this.form.patchValue({
+          ...product,
+          state: this.states[2]
+        });
+        // this.form.get('categoryId').setValue(product.category.id);
       });
     });
   }
@@ -44,11 +54,12 @@ export class ProductEditComponent implements OnInit {
     event.preventDefault();
     if (this.form.valid) {
       const product = this.form.value;
-      this.productsService.updateProduct(this.id, product)
-      .subscribe((newProduct) => {
-        console.log(newProduct);
-        this.router.navigate(['./admin/products']);
-      });
+      console.log(product)
+      // this.productsService.updateProduct(this.id, product)
+      // .subscribe((newProduct) => {
+      //   console.log(newProduct);
+      //   this.router.navigate(['./admin/products']);
+      // });
     }
   }
 
@@ -59,6 +70,7 @@ export class ProductEditComponent implements OnInit {
       price: ['', [Validators.required, MyValidators.isPriceValid]],
       images: [[], [Validators.required]],
       description: ['', [Validators.required]],
+      state: ['', [Validators.required]]
     });
   }
 
