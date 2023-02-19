@@ -7,7 +7,8 @@ import { finalize } from 'rxjs/operators';
 
 import { MyValidators } from './../../../../utils/validators';
 import { ProductsService } from './../../../../core/services/products/products.service';
-
+import { CategoriesService } from 'src/app/core/services/categories.service';
+import { Category } from 'src/app/core/models/category.models';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -19,10 +20,13 @@ export class ProductCreateComponent implements OnInit {
 
   form: UntypedFormGroup;
   image$: Observable<any>;
+  urlImage = ''
+  categories: Category[] = []
 
   constructor(
     private formBuilder: UntypedFormBuilder,
     private productsService: ProductsService,
+    private categoriesService: CategoriesService,
     private router: Router,
     private storage: AngularFireStorage
   ) {
@@ -30,6 +34,7 @@ export class ProductCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getCategories()
   }
 
   saveProduct(event: Event) {
@@ -38,7 +43,7 @@ export class ProductCreateComponent implements OnInit {
       const product = this.form.value;
       this.productsService.createProduct(product)
       .subscribe((newProduct) => {
-        console.log(newProduct);
+        console.log(newProduct, 'NUEVO PRODUCTO');
         this.router.navigate(['./admin/products']);
       });
     }
@@ -55,8 +60,9 @@ export class ProductCreateComponent implements OnInit {
       finalize(() => {
         this.image$ = fileRef.getDownloadURL();
         this.image$.subscribe(url => {
-          console.log(url);
-          this.form.get('image').setValue(url);
+          console.log(url, 'URL');
+          this.urlImage = url;
+          this.form.get('images').setValue([url]);
         });
       })
     )
@@ -65,16 +71,30 @@ export class ProductCreateComponent implements OnInit {
 
   private buildForm() {
     this.form = this.formBuilder.group({
-      id: ['', [Validators.required]],
-      title: ['', [Validators.required]],
+      title: ['', [Validators.required, Validators.minLength(4)]],
       price: ['', [Validators.required, MyValidators.isPriceValid]],
-      image: [''],
-      description: ['', [Validators.required]],
+      images: [[], [Validators.required]],
+      categoryId: [1 , [Validators.required]],
+      description: ['', [Validators.required, Validators.minLength(10)]],
     });
   }
 
   get priceField() {
     return this.form.get('price');
   }
-
+  get titleField() {
+    return this.form.get('title');
+  }
+  get descriptionField() {
+    return this.form.get('description');
+  }
+  get categoryIdField() {
+    return this.form.get('categoryId');
+  }
+  private getCategories() {
+    this.categoriesService.getAllCategories()
+      .subscribe(categories => {
+        this.categories = categories
+      })
+  }
 }

@@ -4,6 +4,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { MyValidators } from './../../../../utils/validators';
 import { ProductsService } from './../../../../core/services/products/products.service';
+import { CategoriesService } from 'src/app/core/services/categories.service';
+import { Category } from '../../../../core/models/category.models';
 
 @Component({
   selector: 'app-product-edit',
@@ -14,22 +16,26 @@ export class ProductEditComponent implements OnInit {
 
   form: UntypedFormGroup;
   id: string;
-
+  categories: Category[] = [];
   constructor(
     private formBuilder: UntypedFormBuilder,
     private productsService: ProductsService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private categoriesService: CategoriesService
   ) {
     this.buildForm();
   }
 
   ngOnInit() {
+    this.getCategories()
     this.activatedRoute.params.subscribe((params: Params) => {
       this.id = params.id;
       this.productsService.getProduct(this.id)
-      .subscribe(product => {
+      .subscribe((product:any) => {
+        console.log(product)
         this.form.patchValue(product);
+        this.form.get('categoryId').setValue(product.category.id);
       });
     });
   }
@@ -48,10 +54,10 @@ export class ProductEditComponent implements OnInit {
 
   private buildForm() {
     this.form = this.formBuilder.group({
-      id: ['', [Validators.required]],
+      categoryId: [1, [Validators.required]],
       title: ['', [Validators.required]],
       price: ['', [Validators.required, MyValidators.isPriceValid]],
-      image: [''],
+      images: [[], [Validators.required]],
       description: ['', [Validators.required]],
     });
   }
@@ -59,5 +65,10 @@ export class ProductEditComponent implements OnInit {
   get priceField() {
     return this.form.get('price');
   }
-
+  private getCategories() {
+    this.categoriesService.getAllCategories()
+      .subscribe(categories => {
+        this.categories = categories
+      })
+  }
 }
