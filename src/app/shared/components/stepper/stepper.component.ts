@@ -16,14 +16,21 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class StepperComponent implements OnInit, ControlValueAccessor {
   currentValue = 0;
   constructor() { }
+  onChange = (_:any) => { };
+  onTouch = () => { };
+  isDisabled: boolean;
 
   ngOnInit(): void {
   }
   add() {
     this.currentValue += 1;
+    this.onTouch();
+    this.onChange(this.currentValue);
   }
   sub() {
     this.currentValue -= 1;
+    this.onTouch();
+    this.onChange(this.currentValue);
   }
 
   writeValue(value: number): void {
@@ -32,13 +39,13 @@ export class StepperComponent implements OnInit, ControlValueAccessor {
       }
   }
   registerOnChange(fn: any): void {
-      
+    this.onChange = fn;
   }
   registerOnTouched(fn: any): void {
-      
+    this.onTouch = fn;
   }
   setDisabledState(isDisabled: boolean): void {
-      
+    this.isDisabled = isDisabled;
   }
 
 }

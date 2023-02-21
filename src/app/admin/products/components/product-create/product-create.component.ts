@@ -78,6 +78,10 @@ export class ProductCreateComponent implements OnInit {
       description: ['', [Validators.required, Validators.minLength(10)]],
       stock: [100, [Validators.required]]
     });
+    this.form.get('stock').valueChanges
+      .subscribe(value => {
+        console.log(value, 'VALUE FROM STEPPER')
+      })
   }
 
   get priceField() {
