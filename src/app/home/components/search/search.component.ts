@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search',
@@ -16,12 +16,13 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchField.valueChanges
+      .pipe(debounceTime(300))
       .subscribe(value => {
         this.getData(value);
       })
   }
   private getData(query: string) {
-    const API = 'QEPmItxmfxUMOaQzYBZfk94A0O2uUKqT';
+    const API = 'zlJmc1PLdMbnHeG5CmUq3DEGgBTsfcMi';
     this.http.get(`https://api.giphy.com/v1/gifs/search?q=${query}&api_key=${API}&limit=12`)
     .pipe(
       map( (response: any) => {
@@ -29,7 +30,7 @@ export class SearchComponent implements OnInit {
       })
     )
     .subscribe((data) => {
-      console.log('data', data);
+      this.results = data;
     })
   }
 
